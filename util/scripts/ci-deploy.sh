@@ -15,12 +15,12 @@ DEPLOYMENT="snapshot"
 function prepare_jenkins() {
   echo "prepare_jenkins $1"
 }
-
+#     openssl aes-256-cbc -K $encrypted_0f4ee0d3c2e7_key -iv $encrypted_0f4ee0d3c2e7_iv -in codesigning.asc.enc -out codesigning.asc -d
 function prepare_travis() {
   if [[ "${TRAVIS_PULL_REQUEST}" == 'false' ]]; then
     openssl aes-256-cbc \
-      -K ${encrypted_0aa8d5faa4a4_key} \
-      -iv ${encrypted_0aa8d5faa4a4_iv} \
+      -K ${encrypted_0f4ee0d3c2e7_key} \
+      -iv ${encrypted_0f4ee0d3c2e7_iv} \
       -in util/configurations/codesigning.asc.enc \
       -out util/configurations/codesigning.asc \
       -d
