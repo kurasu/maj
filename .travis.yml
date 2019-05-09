@@ -1,0 +1,60 @@
+sudo: false
+language: java
+jdk:
+  - openjdk8
+  - oraclejdk8
+  - openjdk11
+
+addons:
+  sonarcloud:
+    organization: tallencewassimakachi-github
+    token:
+      secure: "KajWo/xEfiaAUTdAON8xYU2Z413cgzTC/Mz++h6TSGywGcbZKaGjQ7Zl7j71fbN8SV2PhTkDKp2LRl+lCDe67ALYGzF7X9efIccp7YRVeGSLcScdMXdlBF1uiNIN2RDlhvZl4TTQQ1ZALV55mmZbtZ17UOJlc8jKth3ITazsEAOfk1oRcmlUbObws52e/aTQ/KjFtTzmowrGEZOewHkLA+c4A9m9hWpHYuW9en6b3YJypSgeZPJ5VGYUiClBiEVldF9vAqCieWferZPYUKrXoqlDOxISZJadnV5UxGBB5G5WCbqvtDsx75EgEVHZXCXP34esdck/AopUyfHdHOkO9M44LUMLyubfrjy4XtrNKhe+GBiNTplrg16UucEZ3N1YTLfH7k4iKyWL15E07WEJh0JLcmm3H7goUmE/oAv7S5G95oFwHVpsItERGkYhVEJ2FXV1db184RdPBl4U9AvpUk7PRqrXLV6I8tk4cXvuWaXw+pSvM259OmHI4zXNGuXxhRUK2wiFUnoE1fDgvrzvQ+Ylzn4eUVVms7UtKalZ9ysh/AhRtPpHX+fMmUFUts9RyllqJr/SXwe3/r9xO2/ldQgtOGkO/kq5q1Li3Do8BEBT7xIoAZwCl6o4O7RMAjujnhCrCEs1dFt5Lt76AFCXxjfITGq6IlbWNUrZmiP4mbU="
+  apt:
+    packages:
+      - oracle-java8-installer
+
+git:
+  quiet: true
+  depth: 50
+  submodules: true
+
+branches:
+  only:
+    - /^.*$/
+  except:
+    - gh-pages
+
+notifications:
+  email:
+    - w.akachi@tallence.com
+
+install: "/bin/true"
+
+script:
+  - chmod +x ./util/scripts/*.sh
+  - ./util/scripts/ci-build.sh
+
+#jobs:
+#  include:
+#    - stage: deploy - snapshot
+#      if: branch = develop AND type != pull_request
+#      jdk: openjdk8
+#      script:
+#        - chmod +x ./util/scripts/*.sh
+#        - ./util/scripts/ci-deploy.sh travis snapshot
+#    - stage: deploy - release
+#      if: branch = master AND type != pull_request AND tag =~ ^v-[0-9]+\.[0-9]+\.[0-9]+$
+#      jdk: openjdk8
+#      script:
+#        - chmod +x ./util/scripts/*.sh
+#        - ./util/scripts/ci-deploy.sh travis release
+
+env:
+  global:
+    # SONAR_CLOUD_TOKEN
+    - secure: xWDSD9TZyX6FWnIifXuBOH9bgAKoXSQcr06BnOkYXo+SNoZIvrfBxh927ux/06lejxCGNwE7i+M2x5ysRslNzIq73JlGo05iQNPlDhB5M8GPlwTOqW4Ug4R5pQA7doImThVeUI+JrlOSGsDdZbkRSenaYoRhV6IRIvoPA+AhXix2b5VKjF9QHFecjTp/FRpA2nJ0RafnKhWb89HvyOPmputa3MiuPBnffWp76BZlZuyJ8//P1zWniqs6qOiFfCEpVEXvvN/gU9v6iyvJzB2RKTUyva8mfTUdJ7DAI/VTS2cC446CK4eB5rGkW1S+RShf3iVK7NnU31hNClZ12sEozP0IhLxDYefEe3kRCeirPIeG4reMXNVhuzlo2/ym33Sof64Z3mcQfboZcdrZQUuRRb/fCemH/vW1v5dzo6XDDSlIzRaeKhYOG4bK6so0N3B0XqrTUrElTM3/q1KnmMfDhhfOTDAUN14jUOUg3kMZZQvPeEW4yxyTqWDX8s1LI6dzVWY+U0GbphJ3TVJqyU0T7QSvbMAoLCFEpBcifDFgi84cohK62bkVVtV+SsgOeAbEy62g1JQfq5sXO9Ca9VtUsCIL2O3ZKSL751uLAnlLj6GxHSIGDUYi70fI3WH1K9Z1GrRbmk0odqRC6bsJUzH3bTAa9NJbY9fyekocYI76YPQ=
+    # CI_DEPLOY_USERNAME
+    - secure: 0GXqI9zlVjhFU3BZprjJ9uH0uLrAwZ1DJVtldcikapprr1By1sj4gFJJEgI7oogCEhZ28G45MyIit3iXK6B8yLvvd99GNhALQdJqAUaPJTwHVuMNe7qIqxPa1V5KAMvxWM25SZV39WUgz7epQHV9xcLCPTM3u7mHjRqHzxKoRL0JINrrIFYvfzm0FDgFO3OVbFqxqhOEK2orxPCcUS6l+04pfgq61FQAKOgKLTbVOMI8tKyY8s9Y3+y/Vz08ZxS/FjfAYYWgwEQ+kTuW0VxCHA9yJrMNmxl6kwkF2mxqPZ84yhi3E1UYNaLVucQXWvI4dgBJgfj4912JrSuwnqX8+qZvt+bSmaRlHNR9c/wBbaC9wBrKlTf94ngOjvuWYvM3ereFRScvaoEHQEaoaLXy206hlieJ39+Api9eLJgFB0xFYAkP3eQdlYTBAlsr8IfxzlOWqIMzV5KOPMljlImqvADlXkjZrMlCYkfkgE4wb4YXDKTomw4KkXp0hZZGBJNbVWS+mtriDaA4nIvBvtvHfAv+tuNM0DGA+PSUwQ5HhFaJ5KBa3+oqh3DFFPt5VHL2DHx/UuxI20KLlChzQivIEquFBPqCZ4hyEVdcgsJAZaIw4IP2Lht5Ynmviii2CXO1NXygTkJDMj+ohOUUjsyD8ibBKN3Un08pN5kogNWYkXM=
+    # CI_DEPLOY_PASSWORD
+    - secure: RSnE/qdiEOQqCV7lrNooZ5WUM/JTNVETdOHzeCIl+2eGIHqNCqcJOKA9nmeW+FUt4d90BWdoXs6wDOr8HQYJsjvAwMmc9ozfwxHr8vmekJcHz4S/Q3Jb8EjJFp/Uv3tWTI0DSCzNE8ebD5riH7Ze2+bzRyzRK+XGqfbW6nHMZKWhxWDDbYt18UVnQ79fzkNchSx13Phv8yg0mEhYT5Qnemi0Yga/d87jKCIK3/eyu8VpwcOnoXXQYd4BwlEvip9JBa8TQOjjs665Nx0moT6VxYR+U0L2aOj8+pmbAsjm8otmAgwEqzuAN6T3xmbdBgg+fspmi+xGTWgV/op4kqP3fDia26PpndGK6S9e6sTgCIGgq+7xrdJbE4/+VI5QbwLTbF/pG0MZteHnm5GD/owAMCPE2Fv2csqIgWfaNMTeToMHDrde7XOpFugAZC9QKUH99blMgMnB0aLU9wvBOZRKHH+oeveey0oYPczIi+RdqOSuPcE+uQG9adkx3l7zHMmeGcas/DjBI4VEU0MVxN31RewtMmkJH+x5sA8KFXXUD1HQKjwbvOZeEMy9xn8q+F/IGS8LKetu/pshtRkKOogdto9Ch711LYuuczA4Adn8cABFLytmAUsbWI59vLcxpIXlu1I7K11npXV5XCgP4NxnDPoVoEZX1jMtiU6vc/Wj79k=
