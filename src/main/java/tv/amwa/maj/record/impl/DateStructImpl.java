@@ -61,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -136,7 +137,7 @@ public final class DateStructImpl
     		@Int16 short year)
     	throws IllegalArgumentException {
 
-    	dateValue = new GregorianCalendar();
+    	dateValue = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
     	dateValue.setLenient(false);
 
     	setDate(day, month, year);

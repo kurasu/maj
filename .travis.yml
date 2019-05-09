@@ -1,0 +1,56 @@
+sudo: false
+language: java
+jdk:
+- openjdk8
+- oraclejdk8
+- openjdk11
+addons:
+  sonarcloud:
+    organization: tallencewassimakachi-github
+    token:
+      secure: vktl4jsSZRtoXa/5s//uKd1UVN7c3bozBaSIKXp0M5n4I0WSgFN3Z2+8l1JilZXbNBB8ANV+a5eSi8aEpSlwTNSoqVcJEY1DGKYOKvT6DP2oeyhnkXB72KfAq8rFcu/aHMqM1qfmAzPOYBurl/vVMlFylyw5o8Wwqx63/tWUK/YhOji5qXRCIEY6VJVh7LUqBxzJAJgwrS7gvParpcrjVHmwmB8q0qfaEE0MGhcJV0aAXhpVRZkCvHyl8kTwrzr79+oUWvJVoRvsxV+R60o7vT+NeJCgA1L57kPtIH/kzTDA6VjfgfvshWw/gZxL79AnKvQ/6lHYeeMbjN3aB/Ey3lagrJrhnlAdYlZYZOF2o81Umd6UIbVLKJ7DTxwQqEufUu/MRXDxbEygauK8QuK8SOEavUdgYgfZPot/jCVWAb0VoOwKKeM41/QQyc4AmZJQsPMIREElY9nZS5e6aB1jm+LZhNXNRUDO5fk72RAqnHh1fDwQ6jkKJkh94XyR2NX3JpzLeish4ehizfSzws+muOBGouzbIv53MYvE0jpWpsJKSKt/E/3RnYjlClMLaOFHny6mSvxhlIHWRXoj0a8F3vjUKIX9a5nwCSnGneTJsA3AG43PPkqJ6nU4CjRhRCZp9pfGTERu53XoBsx7XP4HG4Q8KVO6Sp2YzZJ7ohTwTcY=
+  apt:
+    packages:
+    - oracle-java8-installer
+git:
+  quiet: true
+  depth: 50
+  submodules: true
+branches:
+  only:
+  - "/^.*$/"
+  except:
+  - gh-pages
+notifications:
+  email:
+  - w.akachi@tallence.com
+install: "/bin/true"
+script:
+  - chmod +x ./util/scripts/*.sh
+  - "./util/scripts/ci-build.sh"
+
+jobs:
+  include:
+    - stage: deploy - snapshot
+      if: branch = develop AND type != pull_request
+      jdk: openjdk8
+      script:
+        - chmod +x ./util/scripts/*.sh
+        - ./util/scripts/ci-deploy.sh travis snapshot
+    - stage: deploy - release
+      if: branch = master AND type != pull_request AND tag =~ ^v-[0-9]+\.[0-9]+\.[0-9]+$
+      jdk: openjdk8
+      script:
+        - chmod +x ./util/scripts/*.sh
+        - ./util/scripts/ci-deploy.sh travis release
+
+
+deploy:
+  provider: releases
+  api_key:
+    secure: 1Rn0n5n7Te5FoRWl3gSXalngaKJgAzrDwNskqBm3zzk5Wa8Xs6y0PUngWu7hZGwc/6GO+GCnQy8Z5NOgOQF4DVJw9lODe7itDq26/SDNnvVEhw5Tpm2qcBFFvX9IqhB1xl5ksNdG3Rp/RrrDRp2wJtqFeP05++embeujnQBHbrhf4DDBxBTGWBP4Iy/g2nJI7cQDOCQBY71bfU82ZmjYKO7o5V/Qv3/uSjtPvGEM+XYGJ5uKpv/DJEAzbuuR2H8/YpWif3pKnV41pQgvykBEclNAgyG80kfkFJ99JIRvvzkJPDk2BZ0LF1YOsJkcZAwYVmcGR6GlYVCehI4xctf0G4QidEr0gqVh80/SGY1fPejfA6/NR/iU/Mx25cTKt9zdzs28GkauOEy3/333eS8bguHpYmGhIzahJxTcCowAhygXTnUL88oI6nN2A39HipsRiI3lrQ3m2emXWekcL6/0HRDDi+bVIG38P1TPsvTx3ILNVybxScMOT3QA+erLrFdpBWwPUQt4Mx497Gus9yyGEbkO7EF9sYUnkvkCjORUFd+jZjWYdYKhTNvuuMWuXULiEeXcmeNu4h9tUqpqbQ7g0vgGL/c7TsDrL8zADpFMuCBAg5mw7lXHa5OlpBBKPZUbXNb+w2g9nH2PJtrv1futKDxSDQxNOuNgTf95inL3Uwg=
+  file: target/maj-*.jar
+  on:
+    repo: TallenceWassimAkachi/maj
+    branch: master
+    tags: true

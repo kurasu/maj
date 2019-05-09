@@ -240,7 +240,7 @@ public class TimeStampTest {
 		assertEquals((byte) 11, testStamp.getDate().getMonth());
 		assertEquals((byte) 2, testStamp.getDate().getDay());
 		
-		TimeZone timezone = TimeZone.getDefault();
+		TimeZone timezone = TimeZone.getTimeZone("UTC");
 		int offset = (timezone.getRawOffset() / 3600000);
 		
 		assertEquals((byte) 21 + offset, testStamp.getTime().getHour());
@@ -262,7 +262,7 @@ public class TimeStampTest {
 		assertEquals((byte) 11, testStamp.getDate().getMonth());
 		assertEquals((byte) 2, testStamp.getDate().getDay());
 
-		TimeZone timezone = TimeZone.getDefault();
+		TimeZone timezone = TimeZone.getTimeZone("UTC");
 		int offset = (timezone.getRawOffset() / 3600000);
 		
 		assertEquals((byte) 23 + offset, testStamp.getTime().getHour());
