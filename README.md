@@ -1,3 +1,7 @@
+Release [![Build Status](https://travis-ci.org/TallenceWassimAkachi/maj.svg?branch=master)](https://travis-ci.org/TallenceWassimAkachi/maj)
+
+Development [![Build Status](https://travis-ci.org/TallenceWassimAkachi/maj.svg?branch=develop)](https://travis-ci.org/TallenceWassimAkachi/maj)
+
 # Media Authoring with Java API (MAJ)
 
 The MAJ API (pronounced *madge*) is a pure Java API for creating, reading, manipulating and writing MXF (SMPTE ST 377), [AAF](http://www.amwa.tv/projects/MS-01.shtml) structured storage and Reg-XML (SMPTE ST 2001) files. MXF files are commonly used as a container for professional media file formats and AAF is supported by a number of professional video editing packages. MXF and Reg-XML are used as part of the [Interoperable Mastering Format](http://www.imfforum.com/IMF_Forum/index.html) suite of specifications.

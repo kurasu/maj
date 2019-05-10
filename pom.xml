@@ -7,6 +7,77 @@
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
+  <name>Media Authoring with Java API (MAJ)</name>
+  <description>
+    The MAJ API was written by Richard Cartwright, with the help and support
+    of Guillaume Belrose and Fang Ren. To contact the author, please raise
+    an issue. The software is provided AS IS with no warranty whatsoever.
+
+    The MAJ API (pronounced madge) is a pure Java API for creating, reading,
+    manipulating and writing MXF (SMPTE ST 377), AAF structured storage and
+    Reg-XML (SMPTE ST 2001) files. MXF files are commonly used as a container
+    for professional media file formats and AAF is supported by a number of
+    professional video editing packages. MXF and Reg-XML are used as part of
+    the Interoperable Mastering Format suite of specifications.
+  </description>
+  <url>https://github.com/TallenceWassimAkachi/maj</url>
+
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Richard Cartwright</name>
+    </developer>
+    <developer>
+      <name>Guillaume Belrose</name>
+    </developer>
+    <developer>
+      <name>Fang Ren</name>
+    </developer>
+    <developer>
+      <name>Wassim Akachi</name>
+      <email>w.akachi@tallence.com</email>
+      <url>https://tallencewassimakachi.github.io</url>
+      <id>tallencewassimakachi</id>
+    </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Richard Cartwright</name>
+    </contributor>
+    <contributor>
+      <name>Guillaume Belrose</name>
+    </contributor>
+    <contributor>
+      <name>Fang Ren</name>
+    </contributor>
+    <contributor>
+      <name>Wassim Akachi</name>
+      <email>w.akachi@tallence.com</email>
+      <timezone>Central European Standard Time (GMT+1)</timezone>
+      <url>https://tallencewassimakachi.github.io</url>
+    </contributor>
+  </contributors>
+
+  <scm>
+    <connection>scm:git:git@github.com:TallenceWassimAkachi/maj.git</connection>
+    <url>https://github.com/TallenceWassimAkachi/maj</url>
+    <developerConnection>scm:git:git@github.com:TallenceWassimAkachi/maj.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub-Repo Issues</system>
+    <url>https://github.com/TallenceWassimAkachi/maj/issues</url>
+  </issueManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -123,6 +194,18 @@
         </executions>
       </plugin>
 
+      <!-- For Nexus/Maven-Repo releases -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
