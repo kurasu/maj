@@ -4,7 +4,7 @@
 
   <groupId>io.github.tallencewassimakachi</groupId>
   <artifactId>maj</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>Media Authoring with Java API (MAJ)</name>

@@ -38,19 +38,31 @@ jobs:
         - chmod +x ./util/scripts/*.sh
         - ./util/scripts/ci-deploy.sh travis snapshot
     - stage: deploy - release
-      if: branch = master AND type != pull_request AND tag =~ ^v-[0-9]+\.[0-9]+\.[0-9]+$
+      if: branch = master AND type != pull_request
       jdk: openjdk8
       script:
         - chmod +x ./util/scripts/*.sh
-        - ./util/scripts/ci-deploy.sh travis release
+      deploy:
+        provider: script
+        script: chmod +x ./util/scripts/*.sh && ./util/scripts/ci-deploy.sh travis release
+        on:
+          all_branches: true
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^v-[0-9]+\.[0-9]+\.[0-9]+$"
+
 
 
 deploy:
   provider: releases
   api_key:
     secure: 1Rn0n5n7Te5FoRWl3gSXalngaKJgAzrDwNskqBm3zzk5Wa8Xs6y0PUngWu7hZGwc/6GO+GCnQy8Z5NOgOQF4DVJw9lODe7itDq26/SDNnvVEhw5Tpm2qcBFFvX9IqhB1xl5ksNdG3Rp/RrrDRp2wJtqFeP05++embeujnQBHbrhf4DDBxBTGWBP4Iy/g2nJI7cQDOCQBY71bfU82ZmjYKO7o5V/Qv3/uSjtPvGEM+XYGJ5uKpv/DJEAzbuuR2H8/YpWif3pKnV41pQgvykBEclNAgyG80kfkFJ99JIRvvzkJPDk2BZ0LF1YOsJkcZAwYVmcGR6GlYVCehI4xctf0G4QidEr0gqVh80/SGY1fPejfA6/NR/iU/Mx25cTKt9zdzs28GkauOEy3/333eS8bguHpYmGhIzahJxTcCowAhygXTnUL88oI6nN2A39HipsRiI3lrQ3m2emXWekcL6/0HRDDi+bVIG38P1TPsvTx3ILNVybxScMOT3QA+erLrFdpBWwPUQt4Mx497Gus9yyGEbkO7EF9sYUnkvkCjORUFd+jZjWYdYKhTNvuuMWuXULiEeXcmeNu4h9tUqpqbQ7g0vgGL/c7TsDrL8zADpFMuCBAg5mw7lXHa5OlpBBKPZUbXNb+w2g9nH2PJtrv1futKDxSDQxNOuNgTf95inL3Uwg=
-  file: target/maj-*.jar
+  file:
+    - target/maj-*.jar
+    - target/maj-*.jar.asc
+    - target/maj-*.pom
+    - target/maj-*.pom.asc
   on:
-    repo: TallenceWassimAkachi/maj
-    branch: master
+    all_branches: true
     tags: true
+    condition: "$TRAVIS_TAG =~ ^v-[0-9]+\.[0-9]+\.[0-9]+$"
+
