@@ -193,6 +193,12 @@ public final class DateStructImpl
 				@UInt8 byte day)
 		throws IllegalArgumentException {
 
+		if (day == 0)
+		{
+			dayHasBeenSet = false;
+			return;
+		}
+
 		if ((day < 1) || (day > 31))
 			throw new IllegalArgumentException("The day of the month must be in the range 1 to 31.");
 
@@ -213,6 +219,12 @@ public final class DateStructImpl
 	public final void setMonth(
 			@UInt8 byte month)
 		throws IllegalArgumentException {
+
+    	if (month == 0)
+		{
+			monthHasBeenSet = false;
+			return;
+		}
 
 		if ((month < 1) || (month > 12))
 			throw new IllegalArgumentException("The month must lie in the range 1 to 12.");
@@ -239,6 +251,11 @@ public final class DateStructImpl
 	public final void setYear(
 			@Int16 short year)
 		throws IllegalArgumentException {
+
+		if (year == 0)
+		{
+			return;
+		}
 
 		// Uncomment to test what happens on 29th Feb in a leap year
 //		dateValue.set(Calendar.DAY_OF_MONTH, 29);
